@@ -1,20 +1,61 @@
+// npm packages
 const express = require('express');
-const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
-const app = express();
-app.use(express.json());
+// Routers
+const loginRouter = require('./routers/loginRouter');
+const schedulerRouter = require('./routers/schedulerRouter');
+const participantRouter = require('./routers/participantRouter');
+const experienceRouter = require('./routers/experienceRouter');
 
-// Database connection
-mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+module.exports = class Server {
+  constructor() {
+    this.app = express();
+    this.setup();
+    this.handleErrors();
+  }
 
-// Define routes
-app.get('/', (req, res) => {
-  res.send('SyncVR Dashboard Backend Running');
-});
+  setup() {
+    this.setHeaders();
+    this.setRouters();
+  }
 
-// Start the server
-const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+  setHeaders() {
+    this.app.use(cors({ origin: true }));
+    this.app.use(express.urlencoded({
+      extended: true
+    }));
+    this.app.use(express.json());
+  }
+
+  setRouters() {
+    this.app.use('/scheduler', schedulerRouter);
+    this.app.use('/participant', participantRouter);
+    this.app.use('/experience', experienceRouter);
+    this.app.use('/login', loginRouter);
+  }
+
+  handleErrors() {
+    this.app.use((req, res, next) => {
+      const error = new Error('Bad Request');
+      error.status = 404;
+      next(error);
+    });
+
+    // Handle errors
+    this.app.use((err, req, res, next) => {
+      res.status(err.status || 500);
+      res.send(`${err.status} : ${err.message}`);
+    });
+  }
+
+  listen() {
+    const port = process.env.PORT || 5000;
+    this.app.listen(port, () => console.log(`Server running on port ${port}`));
+  }
+
+  async start() {
+    await this.listen();
+  }
+};
