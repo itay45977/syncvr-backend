@@ -28,6 +28,7 @@ const ExperienceSchema = new mongoose.Schema({
   },
   completed: {
     type: String,
+    enum: ['yes', 'no'],
     default: 'no'
   }
 });
