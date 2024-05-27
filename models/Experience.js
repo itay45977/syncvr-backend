@@ -25,6 +25,10 @@ const ExperienceSchema = new mongoose.Schema({
   feedbackParticipant2: {
     type: String,
     default: ''
+  },
+  completed: {
+    type: String,
+    default: 'no'
   }
 });
 
