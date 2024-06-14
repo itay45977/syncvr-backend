@@ -30,6 +30,7 @@ export async function onGameFinish(req: Request, res: Response) {
             email,
             answers,
             synchronizationHands,
+            synchronizationPendulum
         });
         const update = await db.collection('scheduled').updateOne({uniqueId}, {
             $set: {
