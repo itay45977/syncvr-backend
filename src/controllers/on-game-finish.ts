@@ -32,7 +32,7 @@ export async function onGameFinish(req: Request, res: Response) {
             synchronizationHands,
             synchronizationPendulum
         });
-        const update = await db.collection('scheduled').updateOne({uniqueId}, {
+        await db.collection('scheduled').updateOne({uniqueId}, {
             $set: {
                 done: true,
                 avgSyncHands: synchronizationHands? synchronizationHands.reduce((acc, curr) => acc + curr.value, 0) / synchronizationHands.length: 0,
