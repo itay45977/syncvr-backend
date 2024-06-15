@@ -10,7 +10,7 @@ export async function onGameStart(req: Request, res: Response) {
 
     try {
         const { db } = await connectToDatabase();
-        const scheduled = await db.collection('scheduled').findOne({sessionId})
+        const scheduled = await db.collection('scheduled').findOne({ sessionId, done: false })
         return res.json(scheduled);
     } catch (error: any) {
         return res.status(500).json({ message: error.message });
