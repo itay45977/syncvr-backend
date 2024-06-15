@@ -26,7 +26,7 @@ export async function getAvatars(req: Request, res: Response) {
     try {
         const { db } = await connectToDatabase();
         const avatars = await db.collection('avatars').find({ uniqueId, done: false })
-        return res.json(avatars);
+        return res.json({avatars});
     } catch (error: any) {
         return res.status(500).json({ message: error.message });
     }
