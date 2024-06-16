@@ -30,7 +30,7 @@ export async function getOtherAvatar(req: Request, res: Response) {
             email: { $ne: email },
             done: false
         });
-        return res.json({ avatar });
+        return res.json(avatar);
     } catch (error: any) {
         return res.status(500).json({ message: error.message });
     }
