@@ -17,16 +17,20 @@ export async function setAvatar(req: Request, res: Response) {
     }
 }
 
-export async function getAvatars(req: Request, res: Response) {
-    const { uniqueId } = req.query;
-    if (!uniqueId) {
+export async function getOtherAvatar(req: Request, res: Response) {
+    const { uniqueId, email } = req.query;
+    if (!uniqueId || !email) {
         return res.status(400).json({ message: 'Missing required fields' });
     }
 
     try {
         const { db } = await connectToDatabase();
-        const avatars = await db.collection('avatars').find({ uniqueId, done: false })
-        return res.json({avatars});
+        const avatar = await db.collection('avatars').findOne({
+            uniqueId,
+            email: { $ne: email },
+            done: false
+        });
+        return res.json({ avatar });
     } catch (error: any) {
         return res.status(500).json({ message: error.message });
     }

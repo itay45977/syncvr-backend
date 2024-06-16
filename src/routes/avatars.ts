@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { setAvatar, getAvatars } from '../controllers/avatars';
+import { setAvatar, getOtherAvatar } from '../controllers/avatars';
 
 const avatarsRouter: Router = Router();
 
 avatarsRouter.put('/avatars', setAvatar);
-avatarsRouter.get('/avatars', getAvatars);
+avatarsRouter.get('/avatars/other', getOtherAvatar);
 
 export { avatarsRouter };
