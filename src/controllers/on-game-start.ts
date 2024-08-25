@@ -2,6 +2,7 @@
 import { Request, Response } from 'express';
 import { connectToDatabase } from '../lib/database';
 
+// Get the scheduled experience configuration
 export async function onGameStart(req: Request, res: Response) {
     const { sessionId } = req.query;
     if (!sessionId) {

@@ -1,7 +1,7 @@
-
 import { Request, Response } from 'express';
 import { connectToDatabase } from '../lib/database';
 
+// Set the current avatar after in-game selection
 export async function setAvatar(req: Request, res: Response) {
     const { uniqueId, email, avatarType} = req.body;
     if (!uniqueId || !email || !avatarType) {
@@ -17,6 +17,7 @@ export async function setAvatar(req: Request, res: Response) {
     }
 }
 
+// After session starts, get the other particpant avatar selection
 export async function getOtherAvatar(req: Request, res: Response) {
     const { uniqueId, email } = req.query;
     if (!uniqueId || !email) {

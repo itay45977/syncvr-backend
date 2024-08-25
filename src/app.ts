@@ -9,6 +9,7 @@ import { avatarsRouter } from './routes/avatars';
 
 const app = express();
 
+// Configure express to enable recieving requests with body
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -1,4 +1,4 @@
-// lib/mongodb.ts
+// Helper function to connect the DB
 import { MongoClient, Db } from 'mongodb';
 
 const MONGODB_URI = process.env.MONGODB_URI as string;

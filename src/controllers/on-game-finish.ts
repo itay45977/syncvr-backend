@@ -15,6 +15,7 @@ interface OnGameFinishBody {
     synchronizationPendulum: Synchronization[]
 }
 
+// Calculates avgs of sync levels, updates experience data at the end of the experience. 
 export async function onGameFinish(req: Request, res: Response) {
     const { uniqueId, answers, synchronizationHands, synchronizationPendulum, email } = req.body as OnGameFinishBody;
 
@@ -35,6 +36,7 @@ export async function onGameFinish(req: Request, res: Response) {
         await db.collection('scheduled').updateOne({uniqueId}, {
             $set: {
                 done: true,
+                // Reduce caulcualtes the avg
                 avgSyncHands: synchronizationHands? synchronizationHands.reduce((acc, curr) => acc + curr.value, 0) / synchronizationHands.length: 0,
                 avgSyncPendulum: synchronizationPendulum? synchronizationPendulum.reduce((acc, curr) => acc + curr.value, 0) / synchronizationPendulum.length: 0,
             }
